@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>backend-chess-system-poo</name>
+=======
+	<name>backend-chess-system</name>
+>>>>>>> 32ba6ea (First class: Position)
 	<comment></comment>
 	<projects>
 	</projects>
