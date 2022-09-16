@@ -11,15 +11,27 @@ public class ChessMatch {
 	//here is the core of the system
 	//all the rules of chess game should be programmed here
 	
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 	
 	public ChessMatch()
 	{
 		board = new Board(8, 8);
+		turn = 1;
+		currentPlayer = Color.WHITE;
 		initialSetup();
 	}
 	
+	public int getTurn()
+	{
+		return this.turn;
+	}
 	
+	public Color getCurrentPlayer()
+	{
+		return this.currentPlayer;
+	}
 	
 	public ChessPiece[][] getPieces()
 	{
@@ -48,6 +60,7 @@ public class ChessMatch {
 		validateSourcePosition(source);
 		validateTargetPosition(source, target);
 		Piece capturedPiece = makeMove(source, target);
+		nextTurn();
 		return (ChessPiece)capturedPiece;
 	}
 	
@@ -56,6 +69,10 @@ public class ChessMatch {
 		if(!board.thereIsAPiece(position))
 		{
 			throw new ChessException("There is no piece on source position");
+		}
+		if(currentPlayer != ((ChessPiece)board.piece(position)).getColor())
+		{
+			throw new ChessException("The chosen piece is not yours");
 		}
 		if(!board.piece(position).isThereAnyPossibleMove())
 		{
@@ -79,6 +96,18 @@ public class ChessMatch {
 		
 		board.placePiece(p, target);
 		return capturedPiece;
+	}
+	
+	private void nextTurn()
+	{
+		turn++;
+		if(currentPlayer == Color.WHITE)
+		{
+			currentPlayer = Color.BLACK;
+		}else {
+			currentPlayer = Color.WHITE;
+		}
+		
 	}
 	
 	private void placeNewPiece(char column, int row, ChessPiece piece)
