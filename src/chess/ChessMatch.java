@@ -312,12 +312,12 @@ public class ChessMatch {
 	
 	private void nextTurn()
 	{
-		turn++;
 		if(currentPlayer == Color.WHITE)
 		{
 			currentPlayer = Color.BLACK;
 		}else {
 			currentPlayer = Color.WHITE;
+			turn++;
 		}
 		
 	}
