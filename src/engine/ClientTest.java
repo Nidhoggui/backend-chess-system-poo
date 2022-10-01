@@ -5,10 +5,12 @@ import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
 
 public class ClientTest {
+	
+	public ClientTest() { }
 
-	public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
+	public String bestMove(String fen) throws InterruptedException, ExecutionException, TimeoutException {
 		var client = new Client();
-		var position = "8/8/4Rp2/5P2/1PP1pkP1/7P/1P1r4/7K b - - 0 40";
+		var position = fen + " b - - 0 40";
 		
 		client.start("stockfish");
 		
@@ -23,9 +25,9 @@ public class ClientTest {
 				5000l)
 				.split(" ")[1];
 		
-		System.out.println(bestMove);
-		
 		client.close();
+		
+		return bestMove;
 	}
 
 }
