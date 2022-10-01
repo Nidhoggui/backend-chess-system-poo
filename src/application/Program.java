@@ -22,6 +22,7 @@ public class Program {
 		//Board board = new Board(8,8);
 		
 		Scanner sc = new Scanner(System.in);
+		String s;
 		ChessMatch chessMatch = new ChessMatch();
 		List<ChessPiece> captured = new ArrayList<>();
 		
@@ -34,14 +35,16 @@ public class Program {
 				System.out.println();
 			
 				System.out.print("Source: ");
-				ChessPosition source = UI.readChessPosition(sc);
+				s = sc.next();
+				ChessPosition source = UI.readChessPosition(s);
 				System.out.println();
 			
 				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
 				UI.printBoard(chessMatch.getPieces(), possibleMoves);
 				
 				System.out.print("Target: ");
-				ChessPosition target = UI.readChessPosition(sc);
+				s = sc.next();
+				ChessPosition target = UI.readChessPosition(s);
 			
 				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
 				
