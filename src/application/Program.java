@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 import chess.ChessException;
 import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
+import engine.FenPosition;
 
 public class Program {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
 		
 		//testando
 		
@@ -25,6 +28,7 @@ public class Program {
 		String s;
 		ChessMatch chessMatch = new ChessMatch();
 		List<ChessPiece> captured = new ArrayList<>();
+		FenPosition converter;
 		
 		while(!chessMatch.getCheckMate()) 
 		{
@@ -33,6 +37,9 @@ public class Program {
 				//UI.clearScreen();
 				UI.printMatch(chessMatch, captured);
 				System.out.println();
+				
+				converter = new FenPosition(chessMatch);
+				System.out.println(converter.convertPositions());
 			
 				System.out.print("Source: ");
 				s = sc.next();
