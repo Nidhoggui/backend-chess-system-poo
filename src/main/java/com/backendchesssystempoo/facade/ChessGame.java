@@ -49,8 +49,8 @@ public class ChessGame {
 				UI.printMatch(chessMatch, captured);
 				System.out.println();
 				converter = new FenPosition(chessMatch);
-				System.out.println(converter.convertPositions());
-				s = converter.convertPositions();
+				System.out.println(converter.getBestMove());
+				s = converter.getBestMove();
 			
 				System.out.print("Source: ");
 				sourceAlgebraic = s.substring(0, 2);

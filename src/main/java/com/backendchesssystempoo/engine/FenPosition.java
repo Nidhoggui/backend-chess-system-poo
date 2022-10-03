@@ -143,6 +143,12 @@ public class FenPosition {
 		return result;
 	}
 	
+	public String getTurn() {
+		String result;
+		result = "" + chessMatch.getTurn();
+		return result;
+	}
+	
 	public String getBestMove() throws InterruptedException, ExecutionException, TimeoutException {
 		String result = "";
 		
@@ -159,6 +165,8 @@ public class FenPosition {
 		}else {
 			result += " " + this.getEnPassant();
 		}
+		
+		result += " 0 " + this.getTurn();
 		
 		stockfish = new ClientTest();
 		System.out.println(result + "\n");
