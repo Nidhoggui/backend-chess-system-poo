@@ -45,8 +45,8 @@ public class Program {
 				System.out.println();
 				if(aux % 2 == 0) {
 					converter = new FenPosition(chessMatch);
-					System.out.println(converter.convertPositions());
-					s = converter.convertPositions();
+					System.out.println(converter.getBestMove());
+					s = converter.getBestMove();
 				} else {
 					s = sc.next();
 				}

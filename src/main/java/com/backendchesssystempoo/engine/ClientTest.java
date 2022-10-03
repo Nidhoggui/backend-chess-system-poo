@@ -10,7 +10,7 @@ public class ClientTest {
 
 	public String bestMove(String fen) throws InterruptedException, ExecutionException, TimeoutException {
 		var client = new Client();
-		var position = fen + " b - - 0 40";
+		var position = fen + " 0 40";
 		
 		client.start("stockfish");
 		

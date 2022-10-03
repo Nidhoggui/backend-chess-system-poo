@@ -5,6 +5,7 @@ import java.util.concurrent.TimeoutException;
 
 import com.backendchesssystempoo.chess.ChessMatch;
 import com.backendchesssystempoo.chess.ChessPiece;
+import com.backendchesssystempoo.chess.ChessPosition;
 import com.backendchesssystempoo.chess.Color;
 import com.backendchesssystempoo.chess.pieces.Bishop;
 import com.backendchesssystempoo.chess.pieces.King;
@@ -17,19 +18,11 @@ public class FenPosition {
 	private ClientTest stockfish;
 	private ChessMatch chessMatch;
 	
-	private String chessPosition;
-	private String castling;
-	private String enPassant;
-	private String halfmoves;
-	private String fullmoves;
-	
-	private final char color = 'b';
-	
 	public FenPosition(ChessMatch chessMatch) {
 		this.chessMatch = chessMatch;
 	}
 	
-	public String convertPositions() throws InterruptedException, ExecutionException, TimeoutException {
+	public String convertPositions() {
 		String result = "";
 		int aux = 0;
 		ChessPiece chessPieces[][] = chessMatch.getPieces();
@@ -89,7 +82,86 @@ public class FenPosition {
 			}
 		}
 		result = result.replace("0", "");
+		//stockfish = new ClientTest();
+		//return stockfish.bestMove(result);
+		return result;
+	}
+	
+	public String getCastling() {
+		String result = "";
+		String whiteKingSide = "";
+		String whiteQueenSide = "";
+		String blackKingSide = "";
+		String blackQueenSide = "";
+		ChessPiece chessPieces[][] = chessMatch.getPieces();
+		
+		if(chessPieces[7][4] instanceof King && chessPieces[7][4].getColor() == Color.WHITE) {
+			if(chessPieces[7][7] instanceof Rook && chessPieces[7][7].getColor() == Color.WHITE) {
+				if(chessPieces[7][7].getMoveCount() == 0) {
+					whiteKingSide = "K";
+				}
+			}
+			if(chessPieces[7][0] instanceof Rook && chessPieces[7][0].getColor() == Color.WHITE) {
+				if(chessPieces[7][0].getMoveCount() == 0) {
+					whiteQueenSide = "Q";
+				}
+			}
+		}
+		
+		if(chessPieces[0][4] instanceof King && chessPieces[0][4].getColor() == Color.BLACK) {
+			if(chessPieces[0][7] instanceof Rook && chessPieces[0][7].getColor() == Color.BLACK) {
+				if(chessPieces[0][7].getMoveCount() == 0) {
+					blackKingSide = "k";
+				}
+			}
+			if(chessPieces[0][0] instanceof Rook && chessPieces[0][0].getColor() == Color.BLACK) {
+				if(chessPieces[0][0].getMoveCount() == 0) {
+					blackQueenSide = "q";
+				}
+			}
+		}
+		
+		result = whiteKingSide + whiteQueenSide + blackKingSide + blackQueenSide;
+		return result;
+	}
+	
+	public String getEnPassant() {
+		//ChessPiece chessPieces[][] = chessMatch.getPieces();
+		ChessPiece enPassantVulnerable = chessMatch.getEnPassantVulnerable();
+		
+		ChessPosition aux;
+		String result = "";
+		if(enPassantVulnerable != null) {
+			aux = enPassantVulnerable.getChessPosition();
+			if(enPassantVulnerable.getColor() == Color.WHITE) {
+				result = "" + aux.getColumn() + (aux.getRow() - 1);
+			}else {
+				result = "" + aux.getColumn() + (aux.getRow() + 1);
+			}
+		}
+		
+		return result;
+	}
+	
+	public String getBestMove() throws InterruptedException, ExecutionException, TimeoutException {
+		String result = "";
+		
+		result = this.convertPositions();
+		
+		if(this.getCastling().equals("")) {
+			result += " b -";
+		}else {
+			result += " b " + this.getCastling();
+		}
+		
+		if(this.getEnPassant().equals("")) {
+			result += " -";
+		}else {
+			result += " " + this.getEnPassant();
+		}
+		
 		stockfish = new ClientTest();
+		System.out.println(result + "\n");
 		return stockfish.bestMove(result);
 	}
 }

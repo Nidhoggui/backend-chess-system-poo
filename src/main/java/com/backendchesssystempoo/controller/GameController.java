@@ -25,6 +25,7 @@ public class GameController {
 	@PostMapping(value = "/newgame")
 	public ResponseEntity<String> newGame() {
 		try {
+			chessGame.newGame();
 			return ResponseEntity.ok().build();
 		} catch(RunningGameException e) {
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE.value()).body(e.getMessage());
