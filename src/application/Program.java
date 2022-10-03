@@ -32,7 +32,6 @@ public class Program {
 		
 		String sourceAlgebraic;
 		String targetAlgebraic;
-		String promotionAlgebraic;
 		int aux = 0;
 		
 		while(!chessMatch.getCheckMate()) 
@@ -60,7 +59,7 @@ public class Program {
 				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
 				UI.printBoard(chessMatch.getPieces(), possibleMoves);
 				
-				System.out.print("Target: ");
+				System.out.print("Target: \n");
 				//s = sc.next();
 				ChessPosition target = UI.readChessPosition(targetAlgebraic);
 			
