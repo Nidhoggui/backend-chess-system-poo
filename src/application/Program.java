@@ -30,28 +30,38 @@ public class Program {
 		List<ChessPiece> captured = new ArrayList<>();
 		FenPosition converter;
 		
+		String sourceAlgebraic;
+		String targetAlgebraic;
+		int aux = 0;
+		
 		while(!chessMatch.getCheckMate()) 
 		{
 			try
 			{
+				aux++;
 				//UI.clearScreen();
 				UI.printMatch(chessMatch, captured);
 				System.out.println();
-				
-				converter = new FenPosition(chessMatch);
-				System.out.println(converter.convertPositions());
+				if(aux % 2 == 0) {
+					converter = new FenPosition(chessMatch);
+					System.out.println(converter.convertPositions());
+					s = converter.convertPositions();
+				} else {
+					s = sc.next();
+				}
 			
 				System.out.print("Source: ");
-				s = sc.next();
-				ChessPosition source = UI.readChessPosition(s);
+				sourceAlgebraic = s.substring(0, 2);
+				targetAlgebraic = s.substring(2, 4);
+				ChessPosition source = UI.readChessPosition(sourceAlgebraic);
 				System.out.println();
 			
 				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
 				UI.printBoard(chessMatch.getPieces(), possibleMoves);
 				
-				System.out.print("Target: ");
-				s = sc.next();
-				ChessPosition target = UI.readChessPosition(s);
+				System.out.print("Target: \n");
+				//s = sc.next();
+				ChessPosition target = UI.readChessPosition(targetAlgebraic);
 			
 				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
 				
@@ -63,7 +73,9 @@ public class Program {
 				if(chessMatch.getPromoted() != null)
 				{
 					System.out.print("Enter piece for promotion (B/N/R/Q): ");
-					String type = sc.nextLine();
+					String type = s.substring(4, 5);
+					type = type.toUpperCase();
+					System.out.println(type);
 					chessMatch.replacePromotedPiece(type);
 				}
 			}catch (ChessException e){
